@@ -1,4 +1,15 @@
-const herd = document.getElementById("herd");
+async function deleteGoat(e) {
+
+    const id = e.target.getAttribute("goatId");
+
+    const res = await fetch(`http://localhost:3000/goats/${id}`, { method: "DELETE" });
+
+    if (res.status == 204) {
+        e.target.parentNode.remove();
+    } else {
+        alert("Unable to delete goat.")
+    }
+}
 
 function createGoatCard(goat) {
 
@@ -25,12 +36,22 @@ function createGoatCard(goat) {
     // Customise classes
     card.classList.add(goat["age"] < 5 ? "young" : "old");
 
+    // Add a delete button
+    const button = document.createElement("button");
+    button.textContent = "Delete";
+    button.setAttribute("goatId", goat["id"]);
+    button.addEventListener("click", deleteGoat);
+    card.appendChild(button);
+
     // Attach it to the container
     herd.appendChild(card);
 
 }
 
 async function callTheHerd() {
+
+    // Get a link to the container
+    const herd = document.getElementById("herd");
 
     // Request all the goats from the API
     const res = await fetch("http://localhost:3000/goats");
