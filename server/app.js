@@ -4,6 +4,7 @@ const express = require("express"); // Access to the Express library
 const cors = require("cors") // Access to the cors library
 
 const { goats, nextId } = require("./goats");
+const logger = require("./logger");
 
 const app = express(); // Make a very basic server using Express
 
@@ -13,8 +14,8 @@ const app = express(); // Make a very basic server using Express
 // req -> [cors (add header to response)] -> [API] -> response
 // req -> [auth (check the req headers for a key)] -> [API] -> response
 
-app.use(cors())
-
+app.use(cors());
+app.use(logger);
 
 // Endpoints
 
