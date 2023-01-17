@@ -3,7 +3,7 @@
 const express = require("express"); // Access to the Express library
 const cors = require("cors") // Access to the cors library
 
-const { goats, nextId } = require("./goats");
+let { goats, nextId } = require("./goats");
 const logger = require("./logger");
 
 const app = express(); // Make a very basic server using Express
@@ -14,8 +14,9 @@ const app = express(); // Make a very basic server using Express
 // req -> [cors (add header to response)] -> [API] -> response
 // req -> [auth (check the req headers for a key)] -> [API] -> response
 
-app.use(cors());
-app.use(logger);
+app.use(express.json()); // Layer to read the body of POSTS
+app.use(cors()); // Layer to add CORS headers
+app.use(logger); // Layer to log access
 
 // Endpoints
 
@@ -37,6 +38,25 @@ app.get("/goats", (req, res) => {
     }
 })
 
+app.post("/goats", (req, res) => {
+    
+    // Extract the information
+    const newGoat = req.body;
+
+    // Add the id to goat data
+    newGoat["id"] = nextId;
+
+    // Increase the nextId for next time
+    nextId += 1;
+
+    // Add the goat to the goat list
+    goats.push(newGoat);
+
+    // Report our success
+    res.status(201).json(newGoat);
+
+})
+
 app.get("/goats/:id", (req, res) => {
 
     const id = req.params["id"];
@@ -52,6 +72,29 @@ app.get("/goats/:id", (req, res) => {
         res.status(404).json({
             error: "No such goat!"
         })
+    }
+})
+
+app.delete("/goats/:id", (req, res) => {
+
+    // Pull out the id from the URL
+    const id = req.params["id"];
+
+    // Check if that goat is real
+    const exists = goats.filter(g => g["id"] == id).length == 1;
+
+    // If it is,
+    if (exists){
+        // Delete goat / create a new version of goats that doesn't contain it.
+        goats = goats.filter(g => g["id"] != id);
+
+        // Return a relevant status
+        res.sendStatus(204);
+
+    } else {
+        res.status(404).json({
+            error: "No such goat!"
+        });
     }
 })
 
