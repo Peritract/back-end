@@ -39,9 +39,19 @@ app.get("/goats", (req, res) => {
 })
 
 app.post("/goats", (req, res) => {
-    
+
     // Extract the information
     const newGoat = req.body;
+
+    // Check each required property (bit of a hack)
+    // true if any property does not appear in the object
+    const propMissing = ["name", "age", "sex", "favouriteColour"].some(p => !Object.hasOwn(newGoat, p));
+
+    if (propMissing) {
+        res.status(400).json({
+            "error": "A goat cannot be created without all necessary information."
+        })
+    } else {
 
     // Add the id to goat data
     newGoat["id"] = nextId;
@@ -55,6 +65,7 @@ app.post("/goats", (req, res) => {
     // Report our success
     res.status(201).json(newGoat);
 
+    }
 })
 
 app.get("/goats/:id", (req, res) => {
