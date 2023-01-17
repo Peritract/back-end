@@ -13,6 +13,15 @@ function createGoatCard(goat) {
     header.textContent = goat["name"];
     card.appendChild(header);
 
+    // Create an element to display favourite colour
+    const colourBox = document.createElement("p");
+    colourBox.textContent = `${goat["name"]}'s favourite colour is `;
+    const colourName = document.createElement("span");
+    colourName.textContent = goat["favouriteColour"];
+    colourName.style.color = goat["favouriteColour"];
+    colourBox.appendChild(colourName);
+    card.appendChild(colourBox);
+
     // Customise classes
     card.classList.add(goat["age"] < 5 ? "young" : "old");
 

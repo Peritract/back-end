@@ -11,7 +11,7 @@ const goats = [
           "name": "Beehronica",
           "age": 3,
           "sex": "F",
-          "favouriteColour": "cerulean" },
+          "favouriteColour": "lightBlue" },
         { "id": 3,
           "name": "Ezekiel",
           "age": 15,

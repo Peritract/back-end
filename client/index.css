@@ -3,9 +3,8 @@ h1 {
 }
 
 .goat {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+    text-align: center;
+    margin: 0.2rem;
 }
 
 .young {
