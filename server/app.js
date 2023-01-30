@@ -86,6 +86,28 @@ app.get("/goats/:id", (req, res) => {
     }
 })
 
+app.update("/goats/:id", (req, res) => {
+    // Pull out the id from the URL
+    const id = req.params["id"];
+
+    // Check if that goat is real
+    const exists = goats.filter(g => g["id"] == id).length == 1;
+
+    // If it is,
+    if (exists){
+        
+        
+
+        // Return a relevant status
+        res.sendStatus(204);
+
+    } else {
+        res.status(404).json({
+            error: "No such goat!"
+        });
+    }
+})
+
 app.delete("/goats/:id", (req, res) => {
 
     // Pull out the id from the URL
