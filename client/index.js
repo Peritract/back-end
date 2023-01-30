@@ -2,7 +2,7 @@ async function deleteGoat(e) {
 
     const id = e.target.getAttribute("goatId");
 
-    const res = await fetch(`http://localhost:3000/goats/${id}`, { method: "DELETE" });
+    const res = await fetch(`http://localhost:5002/goats/${id}`, { method: "DELETE" });
 
     if (res.status == 204) {
         e.target.parentNode.remove();
@@ -54,7 +54,7 @@ async function callTheHerd() {
     const herd = document.getElementById("herd");
 
     // Request all the goats from the API
-    const res = await fetch("http://localhost:3000/goats");
+    const res = await fetch(`http://localhost:5002/goats`);
 
     // Extract the JSON data from the response
     const data = await res.json();
